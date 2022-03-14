@@ -1,4 +1,4 @@
-import 'package:bytebank_v2/database/app_database.dart';
+import 'package:bytebank_v2/database/dao/contact_dao.dart';
 import 'package:bytebank_v2/models/contact.dart';
 import 'package:bytebank_v2/screens/contact_form.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +9,16 @@ class ContactsList extends StatefulWidget {
 }
 
 class _ContactsListState extends State<ContactsList> {
+  final ContactDao _dao = ContactDao();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contatos'),
+        title: const Text('Contacts'),
       ),
       body: FutureBuilder<List<Contact>>(
-        initialData: [],
-        future: findAll(),
+        initialData: const [],
+        future: _dao.findAll(),
         builder: (context, snapshop) {
           switch (snapshop.connectionState) {
             case ConnectionState.none:
@@ -27,7 +28,10 @@ class _ContactsListState extends State<ContactsList> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [CircularProgressIndicator(), Text('Buscando')],
+                  children: const [
+                    CircularProgressIndicator(),
+                    Text('Loading')
+                  ],
                 ),
               );
             case ConnectionState.active:
@@ -44,7 +48,7 @@ class _ContactsListState extends State<ContactsList> {
               );
           }
 
-          return Text('Erro desconhecido');
+          return const Text('Unknown error');
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -61,7 +65,7 @@ class _ContactsListState extends State<ContactsList> {
             },
           );
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
         ),
       ),
@@ -72,7 +76,7 @@ class _ContactsListState extends State<ContactsList> {
 class _ContactItem extends StatefulWidget {
   final Contact contact;
 
-  _ContactItem(this.contact);
+  const _ContactItem(this.contact);
 
   @override
   State<_ContactItem> createState() => _ContactItemState();
@@ -85,11 +89,11 @@ class _ContactItemState extends State<_ContactItem> {
       child: ListTile(
         title: Text(
           widget.contact.name,
-          style: TextStyle(fontSize: 24.0),
+          style: const TextStyle(fontSize: 24.0),
         ),
         subtitle: Text(
           widget.contact.accountNumber.toString(),
-          style: TextStyle(fontSize: 16.0),
+          style: const TextStyle(fontSize: 16.0),
         ),
       ),
     );

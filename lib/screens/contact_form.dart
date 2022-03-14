@@ -1,4 +1,4 @@
-import 'package:bytebank_v2/database/app_database.dart';
+import 'package:bytebank_v2/database/dao/contact_dao.dart';
 import 'package:bytebank_v2/models/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +12,13 @@ class _ContactFormState extends State<ContactForm> {
 
   final TextEditingController _accountNumberController =
       TextEditingController();
+  final ContactDao _dao = ContactDao();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Novo contato'),
+        title: const Text('New contact'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -25,10 +26,10 @@ class _ContactFormState extends State<ContactForm> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Nome',
+              decoration: const InputDecoration(
+                labelText: 'Full name',
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24.0,
               ),
             ),
@@ -36,10 +37,10 @@ class _ContactFormState extends State<ContactForm> {
               padding: const EdgeInsets.only(top: 8.0),
               child: TextField(
                 controller: _accountNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Número da conta',
+                decoration: const InputDecoration(
+                  labelText: 'Account number',
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24.0,
                 ),
                 keyboardType: TextInputType.number,
@@ -50,15 +51,15 @@ class _ContactFormState extends State<ContactForm> {
               child: SizedBox(
                 width: double.maxFinite,
                 child: ElevatedButton(
-                  child: Text('Salvar'),
+                  child: const Text('Create'),
                   onPressed: () {
                     final String name = _nameController.text;
                     final int? accountNumber =
                         int.tryParse(_accountNumberController.text);
                     final Contact newContact = Contact(0, name, accountNumber!);
-                    save(newContact).then(
-                      (id) => Navigator.pop(context),
-                    );
+                    _dao.save(newContact).then(
+                          (id) => Navigator.pop(context),
+                        );
                   },
                 ),
               ),
