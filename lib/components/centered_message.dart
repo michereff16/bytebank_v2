@@ -8,7 +8,7 @@ class CenteredMessage extends StatelessWidget {
 
   CenteredMessage(
     this.message, {
-    this.icon,
+    required this.icon,
     this.iconSize = 64,
     this.fontSize = 24,
   });
