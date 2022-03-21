@@ -29,13 +29,13 @@ final Client client = InterceptedClient.build(
   interceptors: [LoggingInterceptor()],
 );
 
-final String baseUrl = Uri.parse('http://192.168.1.6:8080/transactions') as String;
+const String baseUrl = 'http://192.168.1.6:8080/transactions';
 
 // 'http://192.168.1.6:8080/transactions';
 
 Future<List<Transaction>> findAll() async {
   final Response response = await client.get(
-    Uri(host: baseUrl),
+    Uri.parse(baseUrl),
   );
   final List<dynamic> decodedJson = jsonDecode(response.body);
   final List<Transaction> transactions = [];
@@ -63,7 +63,7 @@ Future<Transaction> save(Transaction transaction) async {
     }
   };
   final String transactionJson = jsonEncode(transactionMap);
-  final Response response = await client.post(Uri(host: baseUrl),
+  final Response response = await client.post(Uri.parse(baseUrl),
       headers: {
         'Content-type': 'application/json',
         'password': '1000',
