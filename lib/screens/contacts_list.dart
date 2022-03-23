@@ -2,6 +2,7 @@ import 'package:bytebank_v2/components/progress.dart';
 import 'package:bytebank_v2/database/dao/contact_dao.dart';
 import 'package:bytebank_v2/models/contact.dart';
 import 'package:bytebank_v2/screens/contact_form.dart';
+import 'package:bytebank_v2/screens/transaction_form.dart';
 import 'package:flutter/material.dart';
 
 class ContactsList extends StatefulWidget {
@@ -34,7 +35,16 @@ class _ContactsListState extends State<ContactsList> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contact contact = contacts[index];
-                  return _ContactItem(contact);
+                  return _ContactItem(
+                    contact,
+                    onClick: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TransactionForm(contact),
+                        ),
+                      );
+                    },
+                  );
                 },
                 itemCount: contacts.length,
               );
@@ -65,27 +75,31 @@ class _ContactsListState extends State<ContactsList> {
   }
 }
 
-class _ContactItem extends StatefulWidget {
+class _ContactItem extends StatelessWidget {
   final Contact contact;
+  final Function onClick;
 
-  const _ContactItem(this.contact);
+  _ContactItem(
+    this.contact, {
+    required this.onClick,
+  });
 
-  @override
-  State<_ContactItem> createState() => _ContactItemState();
-}
-
-class _ContactItemState extends State<_ContactItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        onTap: () => onClick(),
         title: Text(
-          widget.contact.name,
-          style: const TextStyle(fontSize: 24.0),
+          contact.name,
+          style: TextStyle(
+            fontSize: 24.0,
+          ),
         ),
         subtitle: Text(
-          widget.contact.accountNumber.toString(),
-          style: const TextStyle(fontSize: 16.0),
+          contact.accountNumber.toString(),
+          style: TextStyle(
+            fontSize: 16.0,
+          ),
         ),
       ),
     );
