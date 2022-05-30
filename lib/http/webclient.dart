@@ -8,7 +8,7 @@ final Client client = InterceptedClient.build(
   requestTimeout: Duration(seconds: 5),
 );
 
-const String baseUrl = 'http://192.168.1.5:8080/transactions';
+const String baseUrl = 'http://192.168.1.2:8080/transactions';
 
 // 'http://192.168.1.6:8080/transactions';
 
